@@ -22,7 +22,11 @@ SECRET_KEY = 'django-insecure-83hwr-9c+@y7$2a$=itnbf@fanj22p24adz$jab@_2#%n)pn9*
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'bronchial-urethane-visa.ngrok-free.dev',
+    '127.0.0.1',
+    'localhost'
+]
 
 
 # Application definition
@@ -81,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'erp_db',
         'USER': 'postgres',
-        'PASSWORD': 'yourpassword',
+        'PASSWORD': 'system',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -122,7 +126,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 AUTH_USER_MODEL = 'accounts.User'
