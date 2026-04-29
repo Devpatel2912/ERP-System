@@ -80,9 +80,10 @@ WSGI_APPLICATION = 'erp_system.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL', 'postgresql://erp_database_ig0n_user:1c8nfXIhKReT1RZLIxDTFgliTVkkFcAC@dpg-d7ovmtcm0tmc73dees10-a.oregon-postgres.render.com/erp_database_ig0n')
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
