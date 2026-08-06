@@ -2,6 +2,9 @@ import { Bell, User } from 'lucide-react';
 import './TopBar.css';
 
 const TopBar = () => {
+  const username = localStorage.getItem('username') || 'Guest';
+  const role = localStorage.getItem('role') || 'User';
+
   return (
     <header className="topbar">
       <div className="topbar-search">
@@ -19,8 +22,8 @@ const TopBar = () => {
             <User size={20} />
           </div>
           <div className="user-info">
-            <span className="user-name">Admin</span>
-            <span className="user-role">Administrator</span>
+            <span className="user-name" style={{textTransform: 'capitalize'}}>{username}</span>
+            <span className="user-role" style={{textTransform: 'capitalize'}}>{role}</span>
           </div>
         </div>
       </div>

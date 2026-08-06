@@ -88,13 +88,28 @@ def update_employee(request, id=None):
     # 👑 Admin → update any employee
     if user.role == 'admin':
         employee = get_object_or_404(Employee, id=id)
+        
+        # Admin can update user role, etc.
+        emp_user = employee.user
+        emp_user.username = request.data.get('username', emp_user.username)
+        emp_user.first_name = request.data.get('first_name', emp_user.first_name)
+        emp_user.last_name = request.data.get('last_name', emp_user.last_name)
+        emp_user.email = request.data.get('email', emp_user.email)
+        emp_user.role = request.data.get('role', emp_user.role)
+        emp_user.save()
 
     # 👨‍💼 Employee → only self
     else:
         employee = get_object_or_404(Employee, user=user)
+        emp_user = employee.user
+        emp_user.first_name = request.data.get('first_name', emp_user.first_name)
+        emp_user.last_name = request.data.get('last_name', emp_user.last_name)
+        emp_user.email = request.data.get('email', emp_user.email)
+        emp_user.save()
 
     # 🔥 Update data
-    employee.department = request.data.get('department', employee.department)
+    employee.department_id = request.data.get('department', employee.department_id)
+    employee.designation_id = request.data.get('designation', employee.designation_id)
     employee.salary = request.data.get('salary', employee.salary)
     employee.join_date = request.data.get('join_date', employee.join_date)
 
@@ -109,9 +124,26 @@ def update_employee(request, id=None):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request):
-    employee = get_object_or_404(Employee, user=request.user)
-    serializer = EmployeeSerializer(employee)
-    return Response(serializer.data)
+    try:
+        employee = Employee.objects.get(user=request.user)
+        serializer = EmployeeSerializer(employee)
+        return Response(serializer.data)
+    except Employee.DoesNotExist:
+        user = request.user
+        return Response({
+            'user': {
+                'username': user.username,
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+                'role': user.role
+            },
+            'photo': None,
+            'department_details': None,
+            'designation_details': None,
+            'salary': 0,
+            'join_date': None
+        })
 
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated, IsAdmin])
@@ -536,7 +568,14 @@ def generate_payroll(request):
 def my_payroll(request):
     employee = get_object_or_404(Employee, user=request.user)
 
-    records = Payroll.objects.filter(employee=employee)
+    records = Payroll.objects.filter(employee=employee).order_by('-year', '-month')
+    serializer = PayrollSerializer(records, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated, IsAdmin])
+def all_payrolls(request):
+    records = Payroll.objects.all().order_by('-year', '-month')
     serializer = PayrollSerializer(records, many=True)
     return Response(serializer.data)
 

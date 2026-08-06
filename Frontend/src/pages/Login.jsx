@@ -30,6 +30,9 @@ const Login = () => {
       
       localStorage.setItem('token', response.data.access);
       localStorage.setItem('refresh', response.data.refresh);
+      localStorage.setItem('role', response.data.role);
+      localStorage.setItem('userId', response.data.id);
+      localStorage.setItem('username', response.data.username);
       navigate('/');
     } catch (err) {
       if (err.response && err.response.data && err.response.data.error) {

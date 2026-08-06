@@ -3,8 +3,15 @@ import Layout from './components/Layout/Layout';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Employees from './pages/Employees';
+import Attendance from './pages/Attendance';
+import Timesheets from './pages/Timesheets';
+import Profile from './pages/Profile';
 import Inventory from './pages/Inventory';
 import Leave from './pages/Leave';
+
+import Payroll from './pages/Payroll';
+import Tasks from './pages/Tasks';
+import Sales from './pages/Sales';
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children }) => {
@@ -28,13 +35,15 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="profile" element={<Profile />} />
           <Route path="employees" element={<Employees />} />
           <Route path="inventory" element={<Inventory />} />
-          <Route path="attendance" element={<div style={{color: '#fff'}}>Attendance Page (To be implemented)</div>} />
-          <Route path="timesheets" element={<div style={{color: '#fff'}}>Timesheets Page (To be implemented)</div>} />
-          <Route path="tasks" element={<div style={{color: '#fff'}}>Tasks Page (To be implemented)</div>} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="timesheets" element={<Timesheets />} />
+          <Route path="tasks" element={<Tasks />} />
           <Route path="leave" element={<Leave />} />
-          <Route path="payroll" element={<div style={{color: '#fff'}}>Payroll Page (To be implemented)</div>} />
+          <Route path="payroll" element={<Payroll />} />
+          <Route path="sales" element={<Sales />} />
         </Route>
       </Routes>
     </Router>

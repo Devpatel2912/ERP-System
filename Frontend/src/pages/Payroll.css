@@ -1,0 +1,90 @@
+.payroll-container {
+  padding: 20px;
+}
+
+.payroll-header {
+  margin-bottom: 24px;
+}
+
+.payroll-header h1 {
+  color: var(--text-primary);
+  font-size: 28px;
+}
+
+.payroll-form {
+  padding: 24px;
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+
+.payroll-form h3 {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.payroll-form .form-group {
+  margin-bottom: 16px;
+}
+
+.payroll-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.payroll-form input,
+.payroll-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.payroll-form input:focus,
+.payroll-form select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.payroll-list {
+  padding: 24px;
+}
+
+.payroll-list h3 {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.payroll-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.payroll-table th,
+.payroll-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.payroll-table th {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.payroll-table td {
+  color: var(--text-primary);
+}
+
+.final-salary {
+  font-weight: bold;
+  color: #10b981; /* Green color for money */
+}
+
+.no-data {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px !important;
+}

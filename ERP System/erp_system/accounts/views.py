@@ -19,7 +19,10 @@ def login_api(request):
         refresh = RefreshToken.for_user(user)
         return Response({
             'access': str(refresh.access_token),
-            'refresh': str(refresh)
+            'refresh': str(refresh),
+            'role': user.role,
+            'id': user.id,
+            'username': user.username
         })
     else:
         return Response({'error': 'Invalid credentials'}, status=400)

@@ -12,6 +12,13 @@ const Employees = () => {
   
   // Modal State
   const [showModal, setShowModal] = useState(false);
+  const [editingEmployeeId, setEditingEmployeeId] = useState(null);
+  
+  // Password Reset Modal
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetUserId, setResetUserId] = useState(null);
+  const [newPassword, setNewPassword] = useState('');
+  
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -24,6 +31,8 @@ const Employees = () => {
     salary: '',
     join_date: new Date().toISOString().split('T')[0],
   });
+
+  const currentUserRole = localStorage.getItem('role');
 
   const fetchEmployees = async () => {
     try {
@@ -69,8 +78,13 @@ const Employees = () => {
   const handleAddEmployee = async (e) => {
     e.preventDefault();
     try {
-      await api.post('/add-employee/', formData);
+      if (editingEmployeeId) {
+        await api.put(`/update-employee/${editingEmployeeId}/`, formData);
+      } else {
+        await api.post('/add-employee/', formData);
+      }
       setShowModal(false);
+      setEditingEmployeeId(null);
       // Reset form
       setFormData({
         username: '', password: '', first_name: '', last_name: '', email: '',
@@ -81,7 +95,52 @@ const Employees = () => {
       fetchEmployees();
     } catch (err) {
       console.error(err);
-      alert('Failed to add employee. Check console for details.');
+      alert(editingEmployeeId ? 'Failed to update employee.' : 'Failed to add employee. Check console for details.');
+    }
+  };
+
+  const handleEditClick = (emp) => {
+    setFormData({
+      username: emp.user?.username || '',
+      password: '', // Leave empty for security
+      first_name: emp.user?.first_name || '',
+      last_name: emp.user?.last_name || '',
+      email: emp.user?.email || '',
+      role: emp.user?.role || 'employee',
+      department: emp.department || '',
+      designation: emp.designation || '',
+      salary: emp.salary || '',
+      join_date: emp.join_date || new Date().toISOString().split('T')[0],
+    });
+    setEditingEmployeeId(emp.id);
+    setShowModal(true);
+  };
+
+  const handleDeleteEmployee = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this employee?")) return;
+    try {
+      await api.delete(`/delete-employee/${id}/`);
+      fetchEmployees();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete employee");
+    }
+  };
+
+  const handleResetPasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (!newPassword) return;
+    try {
+      await api.post('/reset-password/', {
+        user_id: resetUserId,
+        new_password: newPassword
+      });
+      alert('Password reset successfully');
+      setShowResetModal(false);
+      setNewPassword('');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to reset password');
     }
   };
 
@@ -109,9 +168,19 @@ const Employees = () => {
           <p className="subtitle">Manage and view all company employees.</p>
         </div>
         <div className="header-actions">
-          <button className="btn btn-primary" onClick={() => setShowModal(true)}>
-            <Plus size={18} /> Add Employee
-          </button>
+          {currentUserRole === 'admin' && (
+            <button className="btn btn-primary" onClick={() => {
+              setEditingEmployeeId(null);
+              setFormData({
+                username: '', password: '', first_name: '', last_name: '', email: '',
+                role: 'employee', department: '', designation: '', salary: '', 
+                join_date: new Date().toISOString().split('T')[0]
+              });
+              setShowModal(true);
+            }}>
+              <Plus size={18} /> Add Employee
+            </button>
+          )}
         </div>
       </div>
 
@@ -135,9 +204,8 @@ const Employees = () => {
                 <tr>
                   <th>Employee</th>
                   <th>Role</th>
-                  <th>Department</th>
-                  <th>Designation</th>
                   <th>Salary</th>
+                  {currentUserRole === 'admin' && <th>Actions</th>}
                 </tr>
               </thead>
               <tbody>
@@ -162,9 +230,17 @@ const Employees = () => {
                       </div>
                     </td>
                     <td><span className={`role-badge role-${emp.user?.role}`}>{emp.user?.role}</span></td>
-                    <td>{emp.department_details?.name || 'Unassigned'}</td>
-                    <td>{emp.designation_details?.name || 'Unassigned'}</td>
                     <td className="salary-col">${emp.salary || '0.00'}</td>
+                    {currentUserRole === 'admin' && (
+                      <td className="actions-col">
+                        <button className="btn btn-sm btn-secondary" onClick={() => handleEditClick(emp)}>Edit</button>
+                        <button className="btn btn-sm btn-danger" onClick={() => handleDeleteEmployee(emp.id)} style={{marginLeft: '8px', background: '#e74c3c', color: 'white', border: 'none'}}>Delete</button>
+                        <button className="btn btn-sm" onClick={() => {
+                          setResetUserId(emp.user?.id);
+                          setShowResetModal(true);
+                        }} style={{marginLeft: '8px', background: '#3498db', color: 'white', border: 'none'}}>Reset Pass</button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -189,10 +265,12 @@ const Employees = () => {
                   <label>Username</label>
                   <input type="text" name="username" value={formData.username} onChange={handleInputChange} required />
                 </div>
-                <div className="form-group">
-                  <label>Password</label>
-                  <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
-                </div>
+                {!editingEmployeeId && (
+                  <div className="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
+                  </div>
+                )}
                 <div className="form-group">
                   <label>First Name</label>
                   <input type="text" name="first_name" value={formData.first_name} onChange={handleInputChange} />
@@ -217,24 +295,6 @@ const Employees = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Department</label>
-                  <select name="department" value={formData.department} onChange={handleInputChange}>
-                    <option value="">Select Department...</option>
-                    {departments.map(d => (
-                      <option key={d.id} value={d.id}>{d.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Designation</label>
-                  <select name="designation" value={formData.designation} onChange={handleInputChange}>
-                    <option value="">Select Designation...</option>
-                    {designations.map(d => (
-                      <option key={d.id} value={d.id}>{d.name}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="form-group">
                   <label>Salary</label>
                   <input type="number" name="salary" value={formData.salary} onChange={handleInputChange} />
                 </div>
@@ -245,7 +305,31 @@ const Employees = () => {
               </div>
               <div className="modal-actions">
                 <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Cancel</button>
-                <button type="submit" className="btn btn-primary">Save Employee</button>
+                <button type="submit" className="btn btn-primary">{editingEmployeeId ? 'Update Employee' : 'Save Employee'}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Password Modal */}
+      {showResetModal && (
+        <div className="modal-overlay">
+          <div className="modal-content" style={{maxWidth: '400px'}}>
+            <div className="modal-header">
+              <h2>Reset Password</h2>
+              <button className="close-btn" onClick={() => setShowResetModal(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            <form onSubmit={handleResetPasswordSubmit}>
+              <div className="form-group full-width">
+                <label>New Password</label>
+                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+              </div>
+              <div className="modal-actions" style={{marginTop: '20px'}}>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowResetModal(false)}>Cancel</button>
+                <button type="submit" className="btn btn-primary">Reset</button>
               </div>
             </form>
           </div>

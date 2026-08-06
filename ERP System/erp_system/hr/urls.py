@@ -3,7 +3,7 @@ from .views import add_employee, list_employees, get_employee, update_employee, 
 from .views import today_attendance, monthly_attendance, profile
 from .views import add_timesheet, my_timesheet, all_timesheets, monthly_timesheet
 from .views import assign_task, my_tasks, complete_task, all_tasks, apply_leave, my_leaves, all_leaves, approve_leave, reject_leave
-from .views import generate_payroll, my_payroll
+from .views import generate_payroll, my_payroll, all_payrolls
 from .views import departments_list, designations_list
 
 urlpatterns = [
@@ -35,6 +35,7 @@ urlpatterns = [
     path('reject-leave/<int:id>/', reject_leave),
     path('generate-payroll/', generate_payroll),
     path('my-payroll/', my_payroll),
+    path('all-payrolls/', all_payrolls),
     path('departments/', departments_list),
     path('designations/', designations_list),
 ]

@@ -25,6 +25,8 @@ class Product(models.Model):
     supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField(default=0)
     price = models.FloatField()
+    sku = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    barcode = models.CharField(max_length=100, blank=True, null=True)
     min_stock_level = models.IntegerField(default=10)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)

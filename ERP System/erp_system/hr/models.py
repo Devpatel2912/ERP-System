@@ -22,6 +22,8 @@ class Employee(models.Model):
     salary = models.FloatField(default=0.0)
     join_date = models.DateField()
     photo = models.ImageField(upload_to='employee_photos/', null=True, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
+    emergency_contact = models.CharField(max_length=20, blank=True, null=True)
 
 class Attendance(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)

@@ -8,13 +8,18 @@ import {
   Calendar, 
   DollarSign,
   Package,
-  LogOut 
+  LogOut,
+  User,
+  ShoppingCart
 } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const navItems = [
+  const role = localStorage.getItem('role');
+
+  const allNavItems = [
     { name: 'Dashboard', path: '/', icon: <LayoutDashboard size={20} /> },
+    { name: 'Profile', path: '/profile', icon: <User size={20} /> },
     { name: 'Employees', path: '/employees', icon: <Users size={20} /> },
     { name: 'Inventory', path: '/inventory', icon: <Package size={20} /> },
     { name: 'Attendance', path: '/attendance', icon: <Clock size={20} /> },
@@ -22,7 +27,14 @@ const Sidebar = () => {
     { name: 'Tasks', path: '/tasks', icon: <CheckSquare size={20} /> },
     { name: 'Leave', path: '/leave', icon: <Calendar size={20} /> },
     { name: 'Payroll', path: '/payroll', icon: <DollarSign size={20} /> },
+    { name: 'Sales', path: '/sales', icon: <ShoppingCart size={20} /> },
   ];
+
+  const allowedForUser = ['Dashboard', 'Profile', 'Tasks', 'Timesheets', 'Attendance'];
+  
+  const navItems = role === 'admin' 
+    ? allNavItems 
+    : allNavItems.filter(item => allowedForUser.includes(item.name));
 
   return (
     <aside className="sidebar">

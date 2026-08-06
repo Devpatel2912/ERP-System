@@ -1,0 +1,92 @@
+.tasks-container {
+  padding: 20px;
+}
+
+.tasks-header {
+  margin-bottom: 24px;
+}
+
+.tasks-header h1 {
+  color: var(--text-primary);
+  font-size: 28px;
+}
+
+.task-form {
+  padding: 24px;
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+
+.task-form h3 {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.task-form .form-group {
+  margin-bottom: 16px;
+}
+
+.task-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.task-form input,
+.task-form select,
+.task-form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.task-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.task-form input:focus,
+.task-form select:focus,
+.task-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.task-list {
+  padding: 24px;
+}
+
+.task-list h3 {
+  margin-bottom: 16px;
+  color: var(--text-primary);
+}
+
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table th,
+.task-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.task-table th {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.task-table td {
+  color: var(--text-primary);
+}
+
+.no-data {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 20px !important;
+}

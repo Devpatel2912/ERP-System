@@ -24,6 +24,8 @@ class Order(models.Model):
     order_number = models.CharField(max_length=20, unique=True, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     total_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0.00)
+    shipping_address = models.TextField(blank=True, null=True)
+    tracking_number = models.CharField(max_length=50, blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 

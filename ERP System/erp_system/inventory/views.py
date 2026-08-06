@@ -37,6 +37,56 @@ def suppliers_list(request):
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)
 
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def category_detail(request, pk):
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return Response(status=404)
+        
+    if request.method == 'GET':
+        serializer = CategorySerializer(category)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        if request.user.role not in ['admin', 'inventory']:
+            return Response({'error': 'Unauthorized'}, status=403)
+        serializer = CategorySerializer(category, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    elif request.method == 'DELETE':
+        if request.user.role not in ['admin', 'inventory']:
+            return Response({'error': 'Unauthorized'}, status=403)
+        category.delete()
+        return Response(status=204)
+
+@api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([IsAuthenticated])
+def supplier_detail(request, pk):
+    try:
+        supplier = Supplier.objects.get(pk=pk)
+    except Supplier.DoesNotExist:
+        return Response(status=404)
+        
+    if request.method == 'GET':
+        serializer = SupplierSerializer(supplier)
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        if request.user.role not in ['admin', 'inventory', 'finance']:
+            return Response({'error': 'Unauthorized'}, status=403)
+        serializer = SupplierSerializer(supplier, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+    elif request.method == 'DELETE':
+        if request.user.role not in ['admin', 'inventory']:
+            return Response({'error': 'Unauthorized'}, status=403)
+        supplier.delete()
+        return Response(status=204)
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_product(request):
