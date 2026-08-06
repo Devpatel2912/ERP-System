@@ -1,0 +1,161 @@
+.employees-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.header-section h1 {
+  font-size: 2.2rem;
+  background: linear-gradient(to right, #fff, #94A3B8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.header-section .subtitle {
+  color: var(--text-muted);
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  margin-bottom: 8px;
+}
+
+.search-bar {
+  position: relative;
+  width: 350px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 10px 14px 10px 42px;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.table-container {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.employees-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.employees-table th,
+.employees-table td {
+  padding: 16px 24px;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+.employees-table th {
+  background: rgba(15, 23, 42, 0.6);
+  color: var(--text-muted);
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.employees-table tr {
+  transition: background-color var(--transition-fast);
+}
+
+.employees-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.emp-cell {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.emp-photo {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.emp-photo-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.emp-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.emp-name {
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.emp-email {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.role-admin { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+.role-hr { background: rgba(16, 185, 129, 0.1); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.2); }
+.role-manager { background: rgba(245, 158, 11, 0.1); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+.role-employee { background: rgba(56, 189, 248, 0.1); color: var(--secondary); border: 1px solid rgba(56, 189, 248, 0.2); }
+.role-sales { background: rgba(244, 114, 182, 0.1); color: var(--accent); border: 1px solid rgba(244, 114, 182, 0.2); }
+.role-inventory { background: rgba(99, 102, 241, 0.1); color: var(--primary); border: 1px solid rgba(99, 102, 241, 0.2); }
+
+.salary-col {
+  font-family: monospace;
+  font-size: 1.05rem;
+  color: var(--text-main);
+}
+
+.no-data {
+  padding: 60px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}

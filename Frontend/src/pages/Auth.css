@@ -1,0 +1,91 @@
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  background-color: var(--bg-main);
+  background-image: radial-gradient(circle at top left, var(--bg-panel) 0%, var(--bg-main) 100%);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.auth-header h2 {
+  font-size: 1.8rem;
+  color: var(--text-main);
+}
+
+.auth-header p {
+  color: #a0a0a0;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}
+
+.auth-error {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.auth-success {
+  background-color: rgba(81, 207, 102, 0.1);
+  color: #51cf66;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px solid rgba(81, 207, 102, 0.3);
+}
+
+.forgot-password-link {
+  font-size: 0.85rem;
+  color: #a0a0a0;
+  text-align: right;
+  margin-top: -10px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.forgot-password-link:hover {
+  color: var(--text-main);
+  text-decoration: underline;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.login-btn {
+  margin-top: 10px;
+  height: 48px;
+  font-size: 1rem;
+}

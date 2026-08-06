@@ -1,0 +1,228 @@
+{
+  "info": {
+    "name": "ERP System Full API",
+    "_postman_id": "erp-full-collection",
+    "description": "Complete ERP APIs (Auth, HR, Attendance, Timesheet, Task, Leave, Payroll, Dashboard)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+
+    {
+      "name": "🔐 AUTH",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"1234\",\n  \"role\": \"admin\"\n}"
+            },
+            "url": "{{base_url}}/api/register/"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"1234\"\n}"
+            },
+            "url": "{{base_url}}/api/login/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "👨‍💼 EMPLOYEE",
+      "item": [
+        {
+          "name": "Add Employee",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {"key": "username", "value": "emp1", "type": "text"},
+                {"key": "password", "value": "1234", "type": "text"},
+                {"key": "department", "value": "IT", "type": "text"},
+                {"key": "salary", "value": "25000", "type": "text"},
+                {"key": "photo", "type": "file"}
+              ]
+            },
+            "url": "{{base_url}}/api/add-employee/"
+          }
+        },
+        {
+          "name": "Profile",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/profile/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "🕒 ATTENDANCE",
+      "item": [
+        {
+          "name": "Check In",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/mark-attendance/"
+          }
+        },
+        {
+          "name": "Check Out",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/checkout/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "📄 TIMESHEET",
+      "item": [
+        {
+          "name": "Add Timesheet",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"date\": \"2026-04-20\",\n  \"hours\": 6,\n  \"task\": \"ERP Work\"\n}"
+            },
+            "url": "{{base_url}}/api/add-timesheet/"
+          }
+        },
+        {
+          "name": "My Timesheet",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/my-timesheet/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "📋 TASK",
+      "item": [
+        {
+          "name": "Assign Task",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employee\": 2,\n  \"title\": \"Build API\",\n  \"description\": \"Complete login\"\n}"
+            },
+            "url": "{{base_url}}/api/assign-task/"
+          }
+        },
+        {
+          "name": "My Tasks",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/my-tasks/"
+          }
+        },
+        {
+          "name": "Complete Task",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/complete-task/1/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "📅 LEAVE",
+      "item": [
+        {
+          "name": "Apply Leave",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"start_date\": \"2026-04-21\",\n  \"end_date\": \"2026-04-23\",\n  \"reason\": \"Personal\"\n}"
+            },
+            "url": "{{base_url}}/api/apply-leave/"
+          }
+        },
+        {
+          "name": "Approve Leave",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/approve-leave/1/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "💰 PAYROLL",
+      "item": [
+        {
+          "name": "Generate Payroll",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token}}"},
+              {"key": "Content-Type", "value": "application/json"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employee\": 2,\n  \"month\": 4,\n  \"year\": 2026\n}"
+            },
+            "url": "{{base_url}}/api/generate-payroll/"
+          }
+        },
+        {
+          "name": "My Payroll",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/my-payroll/"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "📊 DASHBOARD",
+      "item": [
+        {
+          "name": "Payroll Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": "{{base_url}}/api/payroll-dashboard/?month=4&year=2026"
+          }
+        }
+      ]
+    }
+
+  ]
+}
